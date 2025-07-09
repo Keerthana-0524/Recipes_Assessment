@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Recipe Table</title>
+</head>
+<body>
+  <h2 class="mb-4">Recipe Data</h2>
+
+  <div class="table-responsive">
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Continent</th>
+          <th>Country/State</th>
+          <th>Cuisine</th>
+          <th>Rating</th>
+          <th>Serves</th>
+          <th>Total Time</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    fetch('http://localhost:5000/recipes')
+      .then(response => response.json())
+      .then(data => {
+        const tableBody = document.querySelector('#recipeTable tbody');
+        data.forEach(recipe => {
+          const row = `
+            <tr>
+              <td>${recipe.id}</td>
+              <td>${recipe.title || ''}</td>
+              <td>${recipe.continent || ''}</td>
+              <td>${recipe.country_state || ''}</td>
+              <td>${recipe.cuisine || ''}</td>
+              <td>${recipe.rating || ''}</td>
+              <td>${recipe.serves || ''}</td>
+              <td>${recipe.total_time || ''}</td>
+              <td>${recipe.description ? recipe.description.slice(0, 50) + '...' : ''}</td>
+            </tr>
+          `;
+          tableBody.insertAdjacentHTML('beforeend', row);
+        });
+      })
+      .catch(err => {
+        alert('Failed to load data: ' + err);
+        console.error(err);
+      });
+  </script>
+</body>
+</html>
